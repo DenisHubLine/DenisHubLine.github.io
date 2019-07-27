@@ -15,6 +15,13 @@
 	VK.api("wall.post", {"message": "Hello!", "v":"5.73"}, function (data) {
 		alert("Post ID:" + data.response.post_id);
 	});
+	  
+	VK.api("friends.get", {fields: "photo_medium"}, function(data) { 
+		// Действия с полученными данными 
+		for(c=0;c<data.response.length;c++){
+			$("body").append("<img src='"+data.response[c].photo_medium+"'><br><br>");
+		}
+	});
  </script>
 <body style='text-align:center;padding-top:50px;' id='body'>
 </body>
