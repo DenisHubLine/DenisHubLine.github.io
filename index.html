@@ -8,9 +8,11 @@
 	
 </body>
 	<script type="text/javascript" language="javascript">
-	VK.init(function() {  
-		document.getElementById('body1').innerHTML + "Инициализация.";
-		
-  	});	
+	VK.init(function() {
+	VK.api("friends.getAppUsers", function(data){
+	if(data.response)
+	{document.getElementById('friend').innerHTML +="<option value="+ parseInt(data.response)+"></option>";}
+	});
+	});
  	</script>
 </html>
