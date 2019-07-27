@@ -2,14 +2,19 @@
 <html>
 <head>
   <script src="//vk.com/js/api/xd_connection.js?20" type="text/javascript"></script>
+  <script type="text/javascript" language="javascript">
+    VK.api("friends.get", {fields: "photo_medium"}, function(data) { 
+		for(c=0;c<data.response.length;c++){
+			$("body").append("<img src='"+data.response[c].photo_medium+"'>
+  </script>
 </head>
-<body>
+<body id='body'>
 
-<div id="vk_comments"></div>
+<!--<div id="vk_comments"></div>-->
 
-<script type="text/javascript" language="javascript">
+<!--<script type="text/javascript" language="javascript">
   VK.Widgets.Comments('vk_comments', {limit: 10, width: '627', attach: '*', pageUrl: "http://vk.com/app12345"});
-</script>
+</script>-->
 
 </body>
 </html>
