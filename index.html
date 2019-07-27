@@ -1,42 +1,300 @@
-<html>
-<head>
-<script src="http://vkontakte.ru/js/api/xd_connection.js?2"type="text/javascript"></script>
-<script type="text/javascript" charset="cp1251" >
-window.onload = (function() {
-    VK.init(function() {
-    // выполняем запрос получения списка друзей
-    VK.api("friends.get", {fields:"uid", fields:"photo"}, function(data) {
-        // узнаем количество друзей
-        var fr = data.response.length;
-        // сортируем друзей по имени (функция sFirstName описана ниже)
-        var friends_data = data.response.sort(sFirstName);
-       
-        // записываем отсортированный список друзей в переменную, вытаскивая из массива
-        var frListHtml = '';
-        for(var i=0;i<fr;i++){
-            frListHtml += friends_data[i].first_name + ' ' + friends_data[i].last_name + ' ' + friends_data[i].uid + '<br />';
-        }
-        // выводим отсортированный список друзей
-        document.getElementById('friends_list').innerHTML = frListHtml;
-    });
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="vkontakte"> 
+<head> 
+<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+<SCRIPT LANGUAGE="JavaScript">   
+document.ondragstart = test;   
+document.onselectstart = test;   
+document.oncontextmenu = test;   
+function test() {   
+return false   
+}   
+</SCRIPT> 
    
-    });
-});
- 
-// функции сортировки
-function sFirstName(a,b) {
-    if (a.first_name > b.first_name)
-        return 1;
-    else if  (a.first_name < b.first_name)
-        return -1;
-    else
-        return 0;
-}
-</script>
-</head>
-<body>
-<div id="friends_list"></div>
-</body>
-</html>
-
-
+<? 
+function getVkParams() { 
+     return 'api_url='.$_GET['api_url'] 
+     .'&api_id='.$_GET['api_id'] 
+     .'&api_settings='.$_GET['api_settings'] 
+     .'&viewer_id='.$_GET['viewer_id'] 
+     .'&viewer_type='.$_GET['viewer_type'] 
+     .'&sid='.$_GET['sid'] 
+     .'&secret='.$_GET['secret'] 
+     .'&user_id='.$_GET['user_id'] 
+     .'&group_id='.$_GET['group_id'] 
+     .'&is_app_user='.$_GET['is_app_user'] 
+     .'&auth_key='.$_GET['auth_key'] 
+     .'&language='.$_GET['language'] 
+     .'&parent_language='.$_GET['parent_language'] 
+     .'&lc_name='.$_GET['lc_name']; 
+} 
+?> 
+   
+   
+<title> приложение</title> 
+   
+   
+<link rel="stylesheet" href="http://vsporte.vov.ru/openapi_sample.css" type="text/css" /> 
+<script src="http://code.jquery.com/jquery-1.4.3.min.js"></script> 
+<script src="http://vkontakte.ru/js/api/xd_connection.js?1" type="text/javascript"></script> 
+<script src="http://vkontakte.ru/js/common.js?1" type="text/javascript"></script> 
+<script src="http://vkontakte.ru/js/lib/ui_controls.js?1" type="text/javascript"></script> 
+<script src="http://vkontakte.ru/js/privacy.js?1" type="text/javascript"></script> 
+<script src="http://vkontakte.ru/js/friends.js?1" type="text/javascript"></script> 
+<script type="text/javascript" src="http://userapi.com/js/api/openapi.js?20"></script> 
+   
+<link rel="stylesheet" href="http://vkontakte.ru/css/rustyle.css" type="text/css" /> 
+<link rel="stylesheet" href="http://vkontakte.ru/css/profile.css" type="text/css" /> 
+<link rel="stylesheet" href="http://vkontakte.ru/css/ui_controls.css" type="text/css" /> 
+<link rel="stylesheet" href="http://vkontakte.ru/css/gsearch.css" type="text/css" /> 
+<link rel="stylesheet" href="http://vkontakte.ru/css/privacy.css" type="text/css" /> 
+<script src="http://vkontakte.ru/js/api/xd_connection.js?2" type="text/javascript"></script> 
+   
+   
+<script type="text/javascript"> 
+VK.init(function(){ 
+     getFriend(); 
+}); 
+   
+   
+$(document).ready(function(){ 
+getFriend(); 
+}); 
+   
+function getFriend(){ 
+     $('#inviteFriend').fadeOut(); 
+     VK.api('friends.get',{fields: 'uid,first_name,last_name,photo_rec,sex'},function(data){ 
+         friend_n    = Math.floor(Math.random()*$(data.response).size()); 
+         friend_id    = data.response[friend_n].uid; 
+         friend_name    = data.response[friend_n].first_name; 
+         //alert(friend_id); 
+         invHtml    = '<div class="invTable">'; 
+         invHtml+= ' <div class="photo">'; 
+         invHtml+= '  <A href="http://vkontakte.ru/id'+data.response[friend_n].uid+'" target="_blank"><IMG src="'+data.response[friend_n].photo_rec+'" height="50" alt=""></A><BR></TD><TD>'; 
+         invHtml+= ' </div>'; 
+         invHtml+= ' <div class="content">'; 
+         invHtml+= '  <div class="top">'; 
+         invHtml+= '   <a target="_blank" href="http://vkontakte.ru/id'+data.response[friend_n].uid+'">'+data.response[friend_n].first_name+'</br> '+data.response[friend_n].last_name+'</a>'; 
+         invHtml+= '  </div>'; 
+         invHtml+= '  <div class="bottom">'; 
+         invHtml+= '  <center>�в'+data.response[friend_n].first_name+' в в <a style = "cursor:pointer" onclick="invite_friend()"><b>в '+(data.response[friend_n].sex == 1 ? '�':'���')+'</b></a>!</center> '; 
+         invHtml+= '  </div>'; 
+         invHtml+= ' </div>'; 
+         invHtml+= '</div>'; 
+         $('#inviteFriend').html(invHtml).fadeIn(); 
+     }); 
+} 
+   
+function invite_friend(){ 
+     VK.api('wall.savePost', {wall_id: friend_id, photo_id: "6896699_224580055", message: friend_name+", �� ������ ������ ��� ����� �������?! ������ � ���, ������ ������ ������! "}, function(json){ 
+         VK.callMethod('saveWallPost', json.response.post_hash); 
+     }); 
+} 
+   
+   
+setInterval('getFriend()', 15000); 
+</script> 
+   
+<script type="text/javascript" charset="cp1251" > 
+window.onload = (function() {   // eiaaa caa?oceony any no?aieoa 
+     VK.init(function() {    // eieoeaeece?oai Vk API 
+   
+     // ociazi flashVars, ia?aaaiiua i?eei?aie? GET cai?inii. Nio?aiyai eo a ia?aiaiio? flashVars 
+     var parts=document.location.search.substr(1).split("&"); 
+     var flashVars={}, curr; 
+     for (i=0; i<parts.length; i++) { 
+         curr = parts[i].split('='); 
+         // caienuaaai a iannea flashVars cia?aiey. Iai?eia?: flashVars['viewer_id'] = 1; 
+         flashVars[curr[0]] = curr[1]; 
+     } 
+     
+     // iieo?aai viewer_id ec iieo?aiiuo ia?aiaiiuo 
+     var viewer_id = flashVars['viewer_id']; 
+   
+     // auiieiyai cai?in iieo?aiey i?ioeey 
+     VK.api("getProfiles", {uids:viewer_id,fields:"first_name, last_name, uid, photo_medium"}, function(data) { 
+         // ia?aaaouaaai iieo?aiiua aaiiua 
+         // auaiaei eiy e oaieee? a aeie user_info 
+         document.getElementById('user_info').innerHTML='<br/><a href="http://vkontakte.ru/id'+data.response[0].uid+'" target="_blank"><img src="'+data.response[0].photo_medium+'"><center>'+data.response[0].first_name+' '+data.response[0].last_name+'</center>'; 
+     }); 
+   
+     }); 
+}); 
+</script> 
+   
+</head> 
+   
+<div id="page"> 
+<body> 
+<img width="820px" height="173px" align="right" src="http://mailrussia.jino.ru/realboys/images/path2.jpg"> 
+<br/> 
+<br> 
+<br/> 
+   
+   
+  <div class="clearFix tBar"> 
+   <ul class="t0"> 
+    <li class="activeLink"> 
+     <a href="1.html"><b class='tl1'><b></b></b><b class='tl2'></b> 
+      <b class='tab_word'>ссылка 1</b> 
+     </a> 
+    </li> 
+    <li > 
+     <a href="2.html"><b class='tl1'><b></b></b><b class='tl2'></b> 
+      <b class='tab_word'>ссылка 2</b> 
+     </a> 
+    </li> 
+    <li >   
+     <a href="3.html"><b class='tl1'><b></b></b><b class='tl2'></b> 
+      <b class='tab_word'>ссылка 3</b> 
+     </a> 
+    </li> 
+    <li >   
+     <a href="4.html"><b class='tl1'><b></b></b><b class='tl2'></b> 
+      <b class='tab_word'>ссылка 4</b> 
+     </a> 
+    </li>   
+   </ul> 
+  </div> 
+   
+   
+<TABLE  width="20%" align="left"> 
+<tr> 
+<td> 
+<div align="center" style='line-height:150%;padding:0px 0px 0px 0px;'><div style='background:#ffffff;border:5px solid #DAE1E8;padding:2px;'> 
+   
+<div id="user_info"></div> 
+   
+<div id="profileActions"> 
+<img src="http://vsporte.vov.ru/invite.png" align="left"><a href="javascript://" onclick="VK.callMethod('showInviteBox');">м-ссылка1</a> 
+   
+   
+<script> 
+function menuLink(){ 
+     VK.callMethod("showSettingsBox", 256); 
+} 
+</script> 
+   
+<img src="http://vsporte.vov.ru/add.png" align="left"><a href='javascript:menuLink()'>м-ссылка2</a> 
+   
+<img src="http://vsporte.vov.ru/help.png" align="left"><a href="javascript://" onclick="window.location = '6.html';">м-ссылка3</a> 
+</div> 
+   
+<div align="center" style='line-height:150%;padding:0px 0px 0px 0px;'><div style='background:#F7F7F7;border:5px solid #DAE1E8;padding:2px;'> 
+<div class="flexOpen" id="information"> 
+    <div class="bOpen"> 
+      <div><h2>Зоголовок1</h2></div> 
+      <div class="flexEdit" style='display:none'> 
+      </div> 
+     </div> 
+    </div></div><br> 
+   
+   
+   
+<div class="inviteFriend"> 
+   
+<div id="inviteFriend"></div> 
+   
+</div> 
+   
+   
+</div> 
+   
+<div align="left" style='line-height:150%;padding:0px 0px 0px 0px;'><div style='background:#F7F7F7;border:5px solid #DAE1E8;padding:2px;'> 
+<div class="flexOpen" id="information"> 
+    <div class="bOpen"> 
+      <div><h2>Зоголовок2</h2></div> 
+       <div class="flexEdit" style='display:none'> 
+      </div>       
+     </div> 
+    </div></div><br> 
+<input id="radio1" type="radio" name="answer" value="a1" checked="true"/>опрос1<br> 
+<input id="radio2" type="radio" name="answer" value="a2"/>опрос2<br> 
+<input id="radio3" type="radio" name="answer" value="a3"/>опрос3<br> 
+<input id="radio4" type="radio" name="answer" value="a4"/>опрос4<br> 
+<div style="width:160px;" class="button_yes"><div id="setStatus">Голосовать</div></div> 
+</div> 
+   
+  <script> 
+VK._apiId = 2022758; 
+VK.init(function(){ }); 
+VK.api('getProfiles', { uids:"53134919", fields:"first_name" }, function(data){ 
+  document.getElementById('name').innerHTML=data.response[0].first_name; 
+}); 
+  VK.addCallback('onBalanceChanged', function(){ king(); }); 
+createButton(document.getElementById('setStatus'), function(){ setStatus(); }); 
+function setStatus(){ 
+if (document.getElementById('radio1').checked){ var activity='[http://vkontakte.ru/app2022758|��� �������� ��� ���������� :)]'; } 
+if (document.getElementById('radio2').checked){ var activity='[http://vkontakte.ru/app2022758|� ♥ ��������� ������!]'; } 
+if (document.getElementById('radio3').checked){ var activity='[http://vkontakte.ru/id6896699|��� �������� �����]'; } 
+if (document.getElementById('radio4').checked){ var activity='[http://vkontakte.ru/app2022758|� �������, � ���������� �����!]'; } 
+VK.api("activity.set", { text:activity }, function(data){ 
+var messagebox = new MessageBox({title:'������ ��������!'}); 
+messagebox.addButton({label:'�������', style:'button_no', onClick:function(){messagebox.hide()}}); 
+messagebox.content('������ ������� ���������!'); 
+messagebox.show(); 
+}); 
+} 
+  </script> 
+   
+<div align="left" style='line-height:150%;padding:0px 0px 0px 0px;'><div style='background:#F7F7F7;border:5px solid #DAE1E8;padding:2px;'> 
+<div class="flexOpen" id="information"> 
+    <div class="bOpen"> 
+      <div><h2>Зоголовок3</h2></div> 
+       <div class="flexEdit" style='display:none'> 
+      </div>       
+  </div> 
+  </div> 
+<div align="center" style='line-height:150%;padding:0px 0px 0px 0px;'><div style='background:#F7F7F7;border:5px solid #DAE1E8;padding:2px;'> 
+<img src="http://www.calend.ru/img/export/informer.png" width="150" alt="��������" border="0"> 
+   
+</div> 
+</div> 
+   
+</TD> 
+</TR> 
+</TABLE> 
+   
+<TABLE  width="73%" align="right"> 
+<tr> 
+<td> 
+<div align="center" style='line-height:150%;padding:0px 0px 0px 0px;'><div style='background:#F7F7F7;border:5px solid #DAE1E8;padding:2px;'> 
+<b>Контент:</b><br> 
+Содержимое странички 
+   
+</TD> 
+</TR> 
+</TABLE> 
+   
+<TABLE  width="100%" align="center"> 
+<tr> 
+<td> 
+<div align="center" style='line-height:150%;padding:0px 0px 0px 0px;'><div style='background:#F7F7F7;border:5px solid #DAE1E8;padding:2px;'> 
+   
+<center> 
+<div id="wrapH"> 
+<div id="wrapHI"> 
+<div id="header"><div id="install"> 
+<a href="http://bora.3dn.ru" target="_blank">bora.3dn.ru</a>, 2011 </div></div></div> 
+</center> 
+   
+   
+</TD> 
+</TR> 
+</TABLE> 
+   
+   
+<script type="text/javascript"> 
+setTimeout(resize, 100); 
+VK.callMethod("setTitle", '�������� ������ | �������'); 
+VK.callMethod("setLocation", 'index'); 
+   
+function resize() { 
+setTimeout(resize, 100); 
+var real_height = document.getElementById('page').clientHeight; 
+VK.callMethod('resizeWindow', '827', real_height); 
+} 
+</script> 
+</div> 
+</body> 
+</html> 
