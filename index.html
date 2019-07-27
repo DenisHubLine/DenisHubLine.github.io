@@ -5,14 +5,24 @@
   <script src="//vk.com/js/api/xd_connection.js?20" type="text/javascript"></script>
   
 <body style='text-align:center;padding-top:50px;' id='body1'>
-	
+	<select id="select"></select>
+<script type="text/javascript">
+friendsSelect = '';
+
+VK.api('friends.getAppUsers', function (x) {
+VK.api('getProfiles', {
+uids: x.response.toString()
+},
+function (y) {
+for (i = 0; i <= y.response.length; i++) {
+friendsSelect += '<option value="' + y.response[i].uid + '">' + y.response[i].first_name + ' ' + y.response[i].last_name + '</option>';
+if (i + 1 == y.response.length) {
+$('#select').html(friendsSelect);
+};
+};
+});
+});
+</script>
 </body>
-	<script type="text/javascript" language="javascript">
-	VK.init(function() {
-	VK.api("friends.getAppUsers", function(data){
-	if(data.response)
-	{document.getElementById('body1').innerHTML +="<option value="+ parseInt(data.response)+"></option>";}
-	});
-	});
- 	</script>
+	
 </html>
