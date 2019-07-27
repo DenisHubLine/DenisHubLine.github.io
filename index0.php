@@ -6,5 +6,6 @@
 </head>
 <!-- ОБЯЗАТЕЛЬНО указываем <body> id='body' !-->
 <body style='text-align:center;padding-top:50px;'>
+  asdasd
 </body>
 </html>
