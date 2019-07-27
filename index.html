@@ -5,6 +5,7 @@
   <script src="//vk.com/js/api/xd_connection.js?20" type="text/javascript"></script>
   <script type="text/javascript" language="javascript">
 	VK.init(function() {  
+		document.getElementById('body').innerHTML + "Инициализация.";
 		VK.api("friends.get", {fields: "first_name"}, function(data) 
 		{ 
 			for(c=0;c<data.response.length;c++)
