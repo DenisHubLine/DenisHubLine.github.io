@@ -5,11 +5,18 @@
 	<script src="scripts/vk_height.js" type="text/javascript"/>
 	<script>
 		function doIt(){
+		try {
 			VK.api("friends.get", {fields: "photo_medium"}, function(data) { 
 				for(c=0;c<data.response.length;c++){
 					$("body").append("<img src='"+data.response[c].photo_medium+"'><br><br>");
 				}
 			});
+			} catch(e) 
+			{
+
+  			alert('Блок catch не получит управление, так как нет ошибок'); 
+
+			}
 		}
 		$(document).ready(function(){
 			doIt();
