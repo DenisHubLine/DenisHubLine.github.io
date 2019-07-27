@@ -7,21 +7,17 @@
 <body style='text-align:center;padding-top:50px;' id='body1'>
 	<select id="select"></select>
 <script type="text/javascript">
-friendsSelect = '';
-
-VK.api('friends.getAppUsers', function (x) {
-VK.api('getProfiles', {
-uids: x.response.toString()
-},
-function (y) {
-for (i = 0; i <= y.response.length; i++) {
-friendsSelect += '<option value="' + y.response[i].uid + '">' + y.response[i].first_name + ' ' + y.response[i].last_name + '</option>';
-if (i + 1 == y.response.length) {
-$('#select').html(friendsSelect);
-};
-};
-});
-});
+	VK.init({apiId: 315231791});
+	VK.Api.call('friends.get', {'uid':6160024, 'fields': 'uid,first_name,last_name,nickname,photo', 'name_case': 'nom', 'timestamp': Date(),'random': Math.random() }, function(r) 
+		    {
+			if(r.response) 
+				{ 
+					document.write(r.response[0].first_nam);
+					document.write(r.response[1].last_name);
+					ocument.write(r.response[2].nickname);
+		     		}
+		     }
+	);
 </script>
 </body>
 	
