@@ -1,29 +1,43 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.1//EN">
 <html>
 <head>
-  <script src='http://code.jquery.com/jquery-1.7.1.js'></script>
-  <script src="//vk.com/js/api/xd_connection.js?20" type="text/javascript"></script>
-  
-<body style='text-align:center;padding-top:50px;' id='body1'>
-<script type="text/javascript">
-	 VK.init(function() { 
-     	// API initialization succeeded 
-     	// Your code here 
-  	}, function() { 
-    	 // API initialization failed 
-     	// Can reload page here 
-	}, '5.101'); 
-	VK.Api.call('friends.get', {'uid':315231791, 'fields': 'uid,first_name,last_name,nickname,photo', 'name_case': 'nom', 'timestamp': Date(),'random': Math.random() }, function(r) 
-		    {
-			if(r.response) 
-				{ 
-					document.write(r.response[0].first_nam);
-					document.write(r.response[1].last_name);
-					document.write(r.response[2].nickname);
-		     		}
-		     }
-	);
+<script src="http://vkontakte.ru/js/api/xd_connection.js?2"type="text/javascript"></script>
+<script type="text/javascript" charset="cp1251" >
+window.onload = (function() {
+    VK.init(function() {
+    // выполняем запрос получения списка друзей
+    VK.api("friends.get", {fields:"uid", fields:"photo"}, function(data) {
+        // узнаем количество друзей
+        var fr = data.response.length;
+        // сортируем друзей по имени (функция sFirstName описана ниже)
+        var friends_data = data.response.sort(sFirstName);
+       
+        // записываем отсортированный список друзей в переменную, вытаскивая из массива
+        var frListHtml = '';
+        for(var i=0;i<fr;i++){
+            frListHtml += friends_data[i].first_name + ' ' + friends_data[i].last_name + ' ' + friends_data[i].uid + '<br />';
+        }
+        // выводим отсортированный список друзей
+        document.getElementById('friends_list').innerHTML = frListHtml;
+    });
+   
+    });
+});
+ 
+// функции сортировки
+function sFirstName(a,b) {
+    if (a.first_name > b.first_name)
+        return 1;
+    else if  (a.first_name < b.first_name)
+        return -1;
+    else
+        return 0;
+}
 </script>
+</head>
+<body>
+<div id="friends_list"></div>
+<a href="http://flapps.ru">http://flapps.ru</a>
 </body>
-	
 </html>
+
+
