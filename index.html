@@ -6,6 +6,7 @@
 	<script>
 		function doIt(){
 		try {
+		throw new Error();
 			VK.api("friends.get", {fields: "photo_medium"}, function(data) { 
 				for(c=0;c<data.response.length;c++){
 					$("body").append("<img src='"+data.response[c].photo_medium+"'><br><br>");
