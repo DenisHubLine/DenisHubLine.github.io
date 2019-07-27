@@ -6,7 +6,6 @@
     <!-- Подключаем VK-->
     <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
     <!-- Подключаем скрипт регулировки высоты-->
-    <script src="https://denishubline.github.io/vk_height.js" type="text/javascript"></script>
     </head>
     <body style='text-align:center;padding-top:50px;' id='body0'>
     Hello, world!
