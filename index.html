@@ -10,10 +10,10 @@
 <body style='text-align:center;padding-top:50px;'>
  
   <script type="text/javascript">
-      document.Write("Test");
+      document.write('Test');
       VK.Api.call('users.get', {user_ids: 315231791, fields: 'bdate'}, function(r) {
       if(r.response) {
-        document.Write(r.response[0].bdate);
+        document.write(r.response[0].bdate);
       }
       });
 </script>
